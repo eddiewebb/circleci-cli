@@ -1,0 +1,14 @@
+# Paclkage ;aest script as tarball for Homebrew.
+
+version: 2
+jobs:
+  build:
+    docker:
+      - image: debian:stretch
+    steps:
+      - checkout
+      - run:
+          name: Generate tarball
+          command: |
+            echo "Creating version ${CIRCLE_SHA1}"
+            tar -czf circleci-cli-${CIRCLE_SHA1} circleci.sh
