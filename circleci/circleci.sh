@@ -4,6 +4,20 @@
 
 REPO="circleci/picard"
 TAG="0.0.4812-e4f6fcc"
+IMAGE="${REPO}:${TAG}"
+
+case $1 in
+
+  --tag | -t )
+    IMAGE="${REPO}:$2"
+    shift; shift;
+    echo "[WARN] Using circleci:" $IMAGE
+	;;
+
+  --version )
+    echo "circleci cli version $TAG"
+    exit 0
+esac
 
 docker run -it --rm \
        -e DOCKER_API_VERSION=${DOCKER_API_VERSION:-1.23} \
@@ -11,5 +25,5 @@ docker run -it --rm \
        -v $(pwd):$(pwd) \
        -v ~/.circleci/:/root/.circleci \
        --workdir $(pwd) \
-       ${REPO}:${TAG} \
+       $IMAGE \
        circleci "$@"

@@ -11,4 +11,4 @@ jobs:
           name: Generate tarball
           command: |
             echo "Creating version ${CIRCLE_SHA1}"
-            tar -czf circleci-cli-${CIRCLE_SHA1} circleci.sh
+            tar -czf circleci-${CIRCLE_SHA1}.tar.gz --transform 's,^,circleci/,' circleci.sh
