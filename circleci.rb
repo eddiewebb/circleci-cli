@@ -8,6 +8,7 @@ class Circleci < Formula
 
   def install
     # Script is standalone bash script
+    bin.install circleci.sh
   end
 
   test do
