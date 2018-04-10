@@ -1,0 +1,8 @@
+{
+  "tag_name": "v${VERSION}",
+  "target_commitish": "${SHA1}",
+  "name": "${VERSION}",
+  "body": "CLI created from ${SHA1} using CircleCI picard image ${VERSION}",
+  "draft": false,
+  "prerelease": true
+}

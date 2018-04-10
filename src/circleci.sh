@@ -15,7 +15,7 @@ case $1 in
 	;;
 
   --version )
-    echo "circleci cli version $TAG"
+    echo "$TAG"
     exit 0
 esac
 

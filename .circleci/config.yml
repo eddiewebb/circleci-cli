@@ -4,11 +4,20 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
+      - image: circleci/golang:1.8
     steps:
       - checkout
       - run:
           name: Generate tarball
           command: |
-            echo "Creating version ${CIRCLE_SHA1}"
-            tar -czf circleci-${CIRCLE_SHA1}.tar.gz --transform 's,^,circleci/,' circleci.sh
+            VERSION=$(bash src/circleci.sh --version)
+            echo "Creating version ${VERSION}"
+            tar -czf circleci-${VERSION}.tar.gz src/circleci.sh
+      - run:
+          name: Publish release on github
+          command: |
+            go get github.com/tcnksm/ghr
+            VERSION=$(bash src/circleci.sh --version)
+            sed -e "s/\${VERSION}/${VERSION}/" -e "s/\${SHA1}/${CIRCLE_SHA1}/" .circleci/release.json > release.json
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} circleci-${VERSION}.tar.gz
+
